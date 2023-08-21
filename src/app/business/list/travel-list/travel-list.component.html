@@ -1,0 +1,139 @@
+<div class="card">
+  <p-table
+    #dt2
+    [value]="travels"
+    [(selection)]="selectedTravels"
+    [loading]="loading"
+    [rows]="10"
+    selectionMode="multiple"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['customer', 'city']"
+    [tableStyle]="{ 'min-width': '60rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-between">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="dt2.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Search keyword"
+          />
+        </span>
+        <div class="mt-2">
+          <span *ngIf="selectedTravels.length" class="text-xl"
+            >{{
+              selectedTravels.length > 1
+                ? selectedTravels.length + " Reisen"
+                : selectedTravels.length + " Reise"
+            }}
+            selektiert</span
+          >
+        </div>
+        <div>
+          <span class="p-buttonset">
+            <button
+              [disabled]="!selectedTravels.length"
+              pButton
+              pRipple
+              label="Einreichen"
+              icon="pi pi-send"
+            ></button>
+            <button
+              [disabled]="!selectedTravels.length"
+              pButton
+              pRipple
+              label="Bezahlt"
+              icon="pi pi-euro"
+            ></button>
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th></th>
+        <th pSortableColumn="startDate" style="width: 20%">
+          Beginn <p-sortIcon field="startDate"></p-sortIcon>
+        </th>
+        <th pSortableColumn="endDate" style="width: 20%">
+          Ende <p-sortIcon field="endDate"></p-sortIcon>
+        </th>
+        <th pSortableColumn="customer" style="width: 20%">
+          Kunde <p-sortIcon field="customer"></p-sortIcon>
+        </th>
+        <th pSortableColumn="city" style="width: 20%">
+          Stadt <p-sortIcon field="city"></p-sortIcon>
+        </th>
+        <th pSortableColumn="totalAmount" style="width: 20%">
+          Rückerstattung <p-sortIcon field="totalAmount"></p-sortIcon>
+        </th>
+        <th pSortableColumn="submitted" style="width: 20%">
+          Eingereicht <p-sortIcon field="submitted"></p-sortIcon>
+        </th>
+        <th pSortableColumn="paid" style="width: 20%">
+          Bezahlt <p-sortIcon field="paid"></p-sortIcon>
+        </th>
+        <th style="width: 20%">Id</th>
+        <th style="width: 20%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-travel>
+      <tr [pSelectableRow]="travel">
+        <td>
+          <p-tableCheckbox [value]="travel" [disabled]="true"></p-tableCheckbox>
+        </td>
+        <td>
+          <img
+            [src]="'assets/images/' + travel.icon"
+            [alt]="travel.icon"
+            width="50"
+            class="shadow-4"
+          />
+        </td>
+        <td>{{ travel.startDate | date : "dd.MM.yyyy" }}</td>
+        <td>{{ travel.endDate | date : "dd.MM.yyyy" }}</td>
+        <td>{{ travel.customer }}</td>
+        <td>{{ travel.city }}</td>
+        <td>{{ travel.totalAmount | currency : "EUR" }}</td>
+        <td>
+          <div *ngIf="travel.submitted; else open">
+            <i class="pi pi-check-square" style="color: green"></i>
+          </div>
+        </td>
+        <td>
+          <div *ngIf="travel.paid; else open">
+            <i class="pi pi-check-square" style="color: green"></i>
+          </div>
+        </td>
+        <td>{{ travel.id }}</td>
+        <td>
+          <div class="flex">
+            <p-button
+              icon="pi pi-file-edit"
+              styleClass="p-button-rounded p-button-text"
+              [routerLink]="'/travel/' + travel.id"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-rounded p-button-danger p-button-text"
+              (onClick)="deleteTravel(travel.id)"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<ng-template #open>
+  <div>
+    <i class="pi pi-times" style="color: red"></i>
+  </div>
+</ng-template>
+
+<div>{{ selectedTravels | json }}</div>

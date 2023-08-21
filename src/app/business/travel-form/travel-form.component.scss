@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -1rem;
+  margin-left: -1rem;
+  margin-top: -1rem;
+}
+
+.checkbox {
+  display: flex;
+  justify-items: flex-start;
+}
+
+.checkboxItems {
+  margin-right: 50px;
+}
+
+.spendItemList {
+  padding: 0;
+  margin: 20px 0 20px 0;
+}
+
+.spendItem-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-field {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn-add-spend {
+  margin-top: 0px;
+}
+
+.spendButtonsSet {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn-field-delete,
+.label-field-delete {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-submit-field {
+  margin-top: 20px;
+  width: 150px;
+}
+
+.label-field-delete {
+  margin-bottom: 3px;
+}
+
+.btn-danger {
+  width: 120px;
+  margin-left: 50px;
+}

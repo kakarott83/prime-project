@@ -3,4 +3,5 @@ export interface Icalc {
   durationHours?: number;
   durationMin?: number;
   totalAmount?: number;
+  spendAmount?: number;
 }

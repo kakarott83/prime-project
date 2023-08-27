@@ -9,9 +9,10 @@ import { Itravel } from 'src/app/model/itravel';
 import { DataService } from 'src/app/services/data.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Icalc } from 'src/app/model/icalc';
 
 export interface UploadEvent {
   originalEvent: Event;
@@ -30,6 +31,7 @@ export class TravelFormComponent implements OnInit {
   totalAmount = 0;
   defaultStart = moment().add(-5, 'days').toDate();
   defaultEnd = moment().add(-3, 'days').toDate();
+  myCalc!: Icalc;
   spends!: ISpend[];
   times: any;
   customers: any;
@@ -63,20 +65,14 @@ export class TravelFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.utilitiesService.getTimes().subscribe((data) => {
-      //this.times = data as ITimes[];
-      this.times = data;
-      //console.log(this.times);
-    });
+    this.times = this.utilitiesService.getTimes()
 
-    this.utilitiesService.getSpendTyps().subscribe((types) => {
-      this.spendTypesList = types as ISpendTypes[];
-    });
+    this.spendTypesList = this.utilitiesService.getSpendTyps()
 
     this.getCustomers();
-    this.utilitiesService.calculateTravel().subscribe((data) => {
-      console.log(data, 'FromService');
-    });
+    // this.utilitiesService.calculateTravel().subscribe((data) => {
+    //   console.log(data, 'FromService');
+    // });
 
     if (this.id) {
       this.dataService.getTravelById(this.id).subscribe((data) => {
@@ -85,6 +81,10 @@ export class TravelFormComponent implements OnInit {
         /*this.travelForm.patchValue(data);*/
       });
     }
+
+    this.travelForm.valueChanges.subscribe(x => {
+      this.changesForm();
+    })
 
     this.spends = [];
   }
@@ -148,10 +148,22 @@ export class TravelFormComponent implements OnInit {
     }
   }
 
+  changesForm() {
+    this.calculateTravel(this.travelForm.value);
+  }
+
   getCustomers() {
     this.dataService.getCustomers().subscribe((items) => {
       this.customers = items;
       //console.log(this.customers);
+    });
+  }
+
+  calculateTravel(travel: any) {
+    this.utilitiesService.calculateTravel(travel).then(x => {
+      if(x) {
+        this.myCalc = x
+      }
     });
   }
 

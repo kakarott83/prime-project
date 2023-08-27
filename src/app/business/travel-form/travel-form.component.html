@@ -6,7 +6,10 @@
           <h3>
             Reisedaten <span *ngIf="id">Id: {{ id }}</span>
           </h3>
-          <h3>Erstattung: {{ totalAmount | currency : "EUR" }}</h3>
+          <div *ngIf="myCalc">
+            <h3 class="margin-bottom: 0;">Erstattung: {{ myCalc.totalAmount | currency : "EUR" }}</h3>
+            <span class="text-xs">{{myCalc.durationDays}} Tag(e) {{myCalc.durationHours}} Stunden</span>
+          </div>
         </div>
         <div class="field mb-4 col-6">
           <label for="" class="font-medium text-900">Kunde</label>
@@ -97,7 +100,7 @@
         </div>
         <div class="subheader col-12">
           <h3>Ausgaben</h3>
-          <h3>Summe: {{ 50.85 | currency : "EUR" }}</h3>
+          <h3>Summe: {{ myCalc.spendAmount | currency : "EUR" }}</h3>
         </div>
         <div class="col-12">
           <div class="btn-field">
@@ -242,4 +245,6 @@
   </div>
 </div>
 <div>{{ travelForm.value | json }}</div>
+<div>{{ myCalc | json }}</div>
 <button (click)="form2Travel(travelForm.value)">Form2Travel</button>
+<button (click)="calculateTravel(travelForm.value)">Kalkulieren</button>

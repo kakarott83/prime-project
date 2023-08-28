@@ -4,14 +4,13 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Icustomer } from 'src/app/model/icustomer';
 import { ISpend } from 'src/app/model/ispend';
 import { ISpendTypes } from 'src/app/model/ispend-types';
-import { ITimes } from 'src/app/model/itimes';
 import { Itravel } from 'src/app/model/itravel';
 import { DataService } from 'src/app/services/data.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 
-import { Component, OnInit, SimpleChange, OnChanges, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Icalc } from 'src/app/model/icalc';
 
 export interface UploadEvent {
@@ -65,9 +64,9 @@ export class TravelFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.times = this.utilitiesService.getTimes()
+    this.times = this.utilitiesService.getTimes();
 
-    this.spendTypesList = this.utilitiesService.getSpendTyps()
+    this.spendTypesList = this.utilitiesService.getSpendTyps();
 
     this.getCustomers();
     // this.utilitiesService.calculateTravel().subscribe((data) => {
@@ -82,9 +81,9 @@ export class TravelFormComponent implements OnInit {
       });
     }
 
-    this.travelForm.valueChanges.subscribe(x => {
+    this.travelForm.valueChanges.subscribe((x) => {
       this.changesForm();
-    })
+    });
 
     this.spends = [];
   }
@@ -160,9 +159,9 @@ export class TravelFormComponent implements OnInit {
   }
 
   calculateTravel(travel: any) {
-    this.utilitiesService.calculateTravel(travel).then(x => {
-      if(x) {
-        this.myCalc = x
+    this.utilitiesService.calculateTravel(travel).then((x) => {
+      if (x) {
+        this.myCalc = x;
       }
     });
   }
@@ -214,7 +213,7 @@ export class TravelFormComponent implements OnInit {
 
   onUpload(event: any) {
     console.log(event, 'FileUploadEvent');
-    for (let file of event.files) {
+    for (const file of event.files) {
       this.uploadedFiles.push(file);
       console.log(this.uploadedFiles, 'FilesArray');
     }
@@ -225,11 +224,12 @@ export class TravelFormComponent implements OnInit {
   }
 
   filterTime(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
+    const filtered: any[] = [];
+
+    const query = event.query;
 
     for (let i = 0; i < (this.times as any[]).length; i++) {
-      let time = (this.times as any[])[i];
+      const time = (this.times as any[])[i];
 
       if (time.value.indexOf(query) === 0) {
         filtered.push(time.value);
@@ -240,11 +240,12 @@ export class TravelFormComponent implements OnInit {
   }
 
   filterCustomers(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
+    const filtered: any[] = [];
+
+    const query = event.query;
 
     for (let i = 0; i < (this.customers as any[]).length; i++) {
-      let customer = (this.customers as any[])[i];
+      const customer = (this.customers as any[])[i];
 
       if (customer.name.indexOf(query) === 0) {
         filtered.push(customer.name);

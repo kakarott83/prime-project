@@ -13,161 +13,92 @@
         </div>
         <div class="field mb-4 col-6">
           <label for="" class="font-medium text-900">Kunde</label>
-          <p-autoComplete
-            formControlName="customer"
-            [dropdown]="true"
-            [suggestions]="filteredCustomers"
-            (completeMethod)="filterCustomers($event)"
-            (onSelect)="onSelectCustomer($event)"
-          ></p-autoComplete>
+          <p-autoComplete formControlName="customer" [dropdown]="true" [suggestions]="filteredCustomers"
+            (completeMethod)="filterCustomers($event)" (onSelect)="onSelectCustomer($event)"></p-autoComplete>
         </div>
         <div class="field mb-4 col-6">
           <label for="" class="font-medium text-900">Ort</label>
-          <input
-            formControlName="city"
-            pinputtext
-            type="text"
-            class="p-inputtext p-component p-element"
-          />
+          <input formControlName="city" pinputtext type="text" class="p-inputtext p-component p-element" />
         </div>
         <div class="field mb-4 col-6">
           <label for="" class="font-medium text-900">Beginn der Reise</label>
-          <p-calendar
-            formControlName="startDate"
-            dateFormat="dd.mm.yy"
-          ></p-calendar>
+          <p-calendar formControlName="startDate" dateFormat="dd.mm.yy"></p-calendar>
         </div>
         <div class="field mb-4 col-6">
           <label for="" class="font-medium text-900">Uhrzeit</label>
 
-          <p-autoComplete
-            formControlName="startHour"
-            [dropdown]="true"
-            [suggestions]="filteredTimes"
-            (completeMethod)="filterTime($event)"
-          ></p-autoComplete>
+          <p-autoComplete formControlName="startHour" [dropdown]="true" [suggestions]="filteredTimes"
+            (completeMethod)="filterTime($event)"></p-autoComplete>
         </div>
         <div class="field mb-4 col-6">
           <label for="" class="font-medium text-900">Ende der Reise</label>
-          <p-calendar
-            formControlName="endDate"
-            dateFormat="dd.mm.yy"
-          ></p-calendar>
+          <p-calendar formControlName="endDate" dateFormat="dd.mm.yy"></p-calendar>
         </div>
         <div class="field mb-4 col-6">
           <label for="" class="font-medium text-900">Uhrzeit</label>
 
-          <p-autoComplete
-            formControlName="endHour"
-            [dropdown]="true"
-            [suggestions]="filteredTimes"
-            (completeMethod)="filterTime($event)"
-          ></p-autoComplete>
+          <p-autoComplete formControlName="endHour" [dropdown]="true" [suggestions]="filteredTimes"
+            (completeMethod)="filterTime($event)"></p-autoComplete>
         </div>
         <div class="checkbox col-12">
           <div class="flex align-items-center gap-1 checkboxItems">
-            <p-checkbox
-              name="group1"
-              formControlName="breakfast"
-              inputId="breakfast"
-              value="true"
-              [binary]="true"
-            ></p-checkbox>
+            <p-checkbox name="group1" formControlName="breakfast" inputId="breakfast" value="true"
+              [binary]="true"></p-checkbox>
             <label for="breakfast">Frühstück</label>
           </div>
 
           <div class="flex align-items-center gap-1 checkboxItems">
-            <p-checkbox
-              name="group1"
-              formControlName="launch"
-              inputId="launch"
-              value="true"
-              [binary]="true"
-            ></p-checkbox>
+            <p-checkbox name="group1" formControlName="launch" inputId="launch" value="true"
+              [binary]="true"></p-checkbox>
             <label for="launch">Mittagessen</label>
           </div>
 
           <div class="flex align-items-center gap-1 checkboxItems">
-            <p-checkbox
-              name="group1"
-              formControlName="dinner"
-              inputId="dinner"
-              value="true"
-              [binary]="true"
-            ></p-checkbox>
+            <p-checkbox name="group1" formControlName="dinner" inputId="dinner" value="true"
+              [binary]="true"></p-checkbox>
             <label for="dinner">Abendessen</label>
           </div>
         </div>
-        <div class="subheader col-12">
+        <div *ngIf="myCalc?.spendAmount" class="subheader col-12">
           <h3>Ausgaben</h3>
           <h3>Summe: {{ myCalc.spendAmount | currency : "EUR" }}</h3>
         </div>
         <div class="col-12">
           <div class="btn-field">
             <div class="btn btn-add-spend">
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-plus"
-                label="Hinzufügen"
-                class="p-button-primary"
-                (click)="addSpendItem()"
-              ></button>
+              <button pButton pRipple type="button" icon="pi pi-plus" label="Hinzufügen" class="p-button-primary"
+                (click)="addSpendItem()"></button>
             </div>
           </div>
         </div>
         <!--Form Array Spend-->
         <div class="spendItemList col-12">
           <ng-container formArrayName="spendItem">
-            <ng-container
-              *ngFor="let spend of spendItem.controls; let index = index"
-            >
+            <ng-container *ngFor="let spend of spendItem.controls; let index = index">
               <div [formGroupName]="index">
                 <div class="spendItem-row">
                   <div class="field mb-4 col-4">
                     <label for="" class="font-medium text-900">Typ</label>
-                    <p-dropdown
-                      [options]="spendTypesList"
-                      formControlName="type"
-                      optionLabel="name"
-                    >
+                    <p-dropdown [options]="spendTypesList" formControlName="type" optionLabel="name">
                     </p-dropdown>
                   </div>
                   <div class="field mb-4 col-4">
                     <label for="" class="font-medium text-900">Datum</label>
-                    <p-calendar
-                      id="date"
-                      formControlName="date"
-                      dateFormat="dd.mm.yy"
-                    ></p-calendar>
+                    <p-calendar id="date" formControlName="date" dateFormat="dd.mm.yy"></p-calendar>
                   </div>
                   <div class="field mb-4 col-3">
                     <label for="" class="font-medium text-900">Betrag €</label>
-                    <p-inputNumber
-                      inputId="integeronly"
-                      formControlName="value"
-                      field="value"
-                      locale="de-DE"
-                      [minFractionDigits]="2"
-                      (ngModelChange)="calcSpend()"
-                    >
+                    <p-inputNumber inputId="integeronly" formControlName="value" field="value" locale="de-DE"
+                      [minFractionDigits]="2" (ngModelChange)="calcSpend()">
                     </p-inputNumber>
                   </div>
                   <div class="field mb-4 col-1">
                     <div class="label-field-delete">
-                      <label
-                        for=""
-                        class="font-medium text-900 label-field-delete"
-                        >Aktionen</label
-                      >
+                      <label for="" class="font-medium text-900 label-field-delete">Aktionen</label>
                     </div>
                     <div class="btn-field-delete">
-                      <p-button
-                        icon="pi pi-times"
-                        (click)="deleteSpendItem(index)"
-                        styleClass="p-button-danger"
-                      ></p-button>
+                      <p-button icon="pi pi-times" (click)="deleteSpendItem(index)"
+                        styleClass="p-button-danger"></p-button>
                     </div>
                   </div>
                 </div>
@@ -181,23 +112,13 @@
         <div class="col-12">
           <div class="btn-field">
             <div class="btn btn-add-spend">
-              <p-fileUpload
-                styleClass="cfn-uploader"
-                mode="basic"
-                type="button"
-                chooseLabel="Upload"
-                name="demo[]"
-                url="https://www.primefaces.org/cdn/api/upload.php"
-                accept=".pdf"
-                (onUpload)="onUpload($event)"
-              ></p-fileUpload>
+              <p-fileUpload styleClass="cfn-uploader" mode="basic" type="button" chooseLabel="Upload" name="demo[]"
+                url="https://www.primefaces.org/cdn/api/upload.php" accept=".pdf"
+                (onUpload)="onUpload($event)"></p-fileUpload>
             </div>
           </div>
-          <p-table
-            *ngIf="uploadedFiles.length > 0"
-            [value]="uploadedFiles"
-            [tableStyle]="{ 'min-width': '50rem', 'margin-top': '20px' }"
-          >
+          <p-table *ngIf="uploadedFiles.length > 0" [value]="uploadedFiles"
+            [tableStyle]="{ 'min-width': '50rem', 'margin-top': '20px' }">
             <ng-template pTemplate="header">
               <tr>
                 <th>Name</th>
@@ -205,21 +126,14 @@
                 <th>Aktion</th>
               </tr>
             </ng-template>
-            <ng-template
-              pTemplate="body"
-              let-uploadedFiles
-              let-rowIndex="rowIndex"
-            >
+            <ng-template pTemplate="body" let-uploadedFiles let-rowIndex="rowIndex">
               <tr>
                 <td>{{ uploadedFiles.name }}</td>
                 <td>{{ uploadedFiles.size / 1000 }} KB</td>
                 <td>
                   <div>
-                    <p-button
-                      icon="pi pi-times"
-                      styleClass="p-button-danger"
-                      (onClick)="deleteUpload(rowIndex)"
-                    ></p-button>
+                    <p-button icon="pi pi-times" styleClass="p-button-danger"
+                      (onClick)="deleteUpload(rowIndex)"></p-button>
                   </div>
                 </td>
               </tr>
@@ -231,13 +145,7 @@
           <p-divider></p-divider>
           <!--Submit-->
           <div class="btn-submit-field">
-            <button
-              pButton
-              type="submit"
-              icon="pi pi-check"
-              label="Submit"
-              class="p-button-success"
-            ></button>
+            <button pButton type="submit" icon="pi pi-check" label="Submit" class="p-button-success"></button>
           </div>
         </div>
       </div>

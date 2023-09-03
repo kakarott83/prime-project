@@ -109,10 +109,10 @@
         <div class="subheader col-12">
           <h3>Upload</h3>
         </div>
-        <div class="col-12">
+        <!--div class="col-12">
           <div class="btn-field">
             <div class="btn btn-add-spend">
-              <p-fileUpload styleClass="cfn-uploader" mode="basic" type="button" chooseLabel="Upload" name="demo[]"
+              <p-fileUpload styleClass="cfn-uploader" mode="basic" type="button" chooseLabel="Upload" name="files[]"
                 url="https://www.primefaces.org/cdn/api/upload.php" accept=".pdf"
                 (onUpload)="onUpload($event)"></p-fileUpload>
             </div>
@@ -139,7 +139,18 @@
               </tr>
             </ng-template>
           </p-table>
+        </div-->
+        <div class="col-12">
+          <div class="my-3">
+            <app-upload-form></app-upload-form>
+          </div>
+
+          <div class="my-2">
+            <app-upload-list></app-upload-list>
+          </div>
+
         </div>
+
 
         <div class="col-12">
           <p-divider></p-divider>
@@ -154,5 +165,6 @@
 </div>
 <div>{{ travelForm.value | json }}</div>
 <div>{{ myCalc | json }}</div>
+<div>{{ uploadedFiles }}</div>
 <button (click)="form2Travel(travelForm.value)">Form2Travel</button>
 <button (click)="calculateTravel(travelForm.value)">Kalkulieren</button>

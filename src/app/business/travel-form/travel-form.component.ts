@@ -25,6 +25,7 @@ export interface UploadEvent {
   providers: [MessageService],
 })
 export class TravelFormComponent implements OnInit {
+  title = 'Upload';
   userId = localStorage.getItem('userId')?.toString();
   id = this.actRouter.snapshot.params['id'];
   totalAmount = 0;
@@ -174,8 +175,6 @@ export class TravelFormComponent implements OnInit {
       city: customer?.city,
     });
   }
-
-  calcTravel(form: any) {}
 
   addSpendItem(spends?: ISpend) {
     if (spends) {
